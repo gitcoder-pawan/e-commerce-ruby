@@ -1,2 +1,4 @@
 class ApplicationController < ActionController::Base
-end
+    include JwtService
+    protect_from_forgery with: :null_session
+  end

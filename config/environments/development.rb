@@ -7,6 +7,7 @@ Rails.application.configure do
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
+  config.hosts << "d116-103-139-232-246.ngrok-free.app"
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -73,4 +74,20 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+  address:              'smtp.gmail.com',
+  port:                 587,
+  domain:               'gmail.com',
+  user_name:            'pawancogoport@gmail.com',
+  password:             'owukcogmepvkeybj',
+  authentication:       :plain,
+  enable_starttls_auto: true
+  }
+
+  config.action_mailer.perform_caching = false
+
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  # 
 end
