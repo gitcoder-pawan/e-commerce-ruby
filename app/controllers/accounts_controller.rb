@@ -1,5 +1,8 @@
 class AccountsController < ApplicationController
-    def signup
+    # JwtService > authenticate included in application controller
+    before_action :authenticate, except: [:create, :verify_code, :resend_code]
+
+    def create
         permitted_params[:email] = permitted_params[:email].downcase
         @account = Account.new(permitted_params)
         if @account.save
@@ -12,6 +15,10 @@ class AccountsController < ApplicationController
 
     def verify_code
       @account = current_user
+
+      unless @account.present?
+        return render json: {error: "Account not found!"}
+      end
       if @account.activation_code == permitted_params[:code]
         @account.update(activated:true)
         render json: {message: "Account activated sucessfully"}
@@ -24,11 +31,25 @@ class AccountsController < ApplicationController
       @account = current_user
       send_email_verification_code(@account)
     end
+
+    def update
+      render json: {message: 'Update Successfully!', data: @current_user}
+    end
+
+    def supplier_account 
+      @supplier_account = SupplierAccount.new(permitted_params.merge({account_id: @current_user.id}))
+
+      if @supplier_account.save 
+        render json: {message: "Supplier Account created successfully!", data: @supplier_account}, status: :created
+      else
+        render json: {error: @supplier_account.errors.full_messages}, status: :unprocessable_entity
+      end
+    end 
     
     private
 
-    def permitted_params
-      params.require(:data).permit(:first_name, :middle_name, :last_name, :date_of_birth, :gender, :contact_number, :email, :password, :activated, :token, :code)
+    def permitted_params 
+      params.require(:data).permit(:first_name, :middle_name, :last_name, :date_of_birth, :gender, :contact_number, :email, :password, :activated, :token, :code, :aadhar_number, :verified)
     end
 
     def current_user

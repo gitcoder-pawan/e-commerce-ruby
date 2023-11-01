@@ -1,6 +1,9 @@
 class Account < ApplicationRecord
     has_many :addresses, dependent: :destroy
-    # has_one :supplier_account, dependent: :destroy
+    has_one :supplier_account, dependent: :destroy
+    has_many :orders
+    has_many :rating_feedbacks
+    has_many :product_complaints
     EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     PASSWORD_FORMAT = /\A
       (?=.*[a-z])           # At least one lowercase letter

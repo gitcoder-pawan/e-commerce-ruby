@@ -11,10 +11,13 @@ class LoginsController < ApplicationController
         end
 
         unless @account.activated 
-            return render json: {error: "Account not activated!", data: @account}, status: :unprocessable_entity
+            return render json: {error: "Account not activated!", data: filter_account(@account)}, status: :unprocessable_entity
         end
-        token = JwtService.encode({email: @account.email, id: @account.id})
-        render json: {message: 'Login Successfully!', data: filter_account(@account), token: token }
+        token = JwtService.encode(@account)
+        data = filter_account(@account)
+        data[:supplier] = @account.supplier_account rescue nil
+        # data[:addresses] = @account.addresses rescue nil
+        render json: {message: 'Login Successfully!', data: data, token: token }
     end
 
     private

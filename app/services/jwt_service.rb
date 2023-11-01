@@ -7,19 +7,30 @@ module JwtService
 
   SECRET_KEY = Rails.application.secret_key_base
 
-  def self.encode(payload, expiration = 7.day.from_now)
-    payload[:exp] = expiration.to_i
+  def self.encode(user, expiration = 7.day.from_now)
+    user.update(token_version: user.token_version + 1)
+    payload = {
+      id: user.id,
+      email: user.email,
+      token_version: user.token_version,
+      exp: expiration.to_i
+    }
     JWT.encode(payload,SECRET_KEY, 'HS512')
+    
   end
 
   def authenticate
     token = request.headers[:token] || params[:token]
     if token
       begin
-        decoded_token = JWT.decode(token, SECRET_KEY , true, algorithm: 'HS256')
+        decoded_token = JWT.decode(token, SECRET_KEY, true, algorithm: 'HS512')
         @current_user = Account.find(decoded_token[0]['id'])
+        if @current_user.token_version != decoded_token[0]['token_version']
+          render json: { error: 'Invalid token' }, status: :unauthorized
+          return
+        end
       rescue *ERROR_CLASSES => exception
-        handle_exception exception
+        handle_exception(exception)
       end
     else
       render json: { error: 'Token missing' }, status: :unauthorized
