@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
     end
 
     def verify_code
-      @account = current_user
+      @account = Account.find_by_email(permitted_params[:email])
 
       unless @account.present?
         return render json: {error: "Account not found!"}

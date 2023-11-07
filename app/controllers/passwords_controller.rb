@@ -28,6 +28,6 @@ class PasswordsController < ApplicationController
     def send_password_verification_code(account)
         code = random_number = rand(100_000..999_999).to_i
         account.update(password_code: code)
-        UserVerificationMailer.verification_email(account, code).deliver_now
+        PasswordVerificationMailer.verification_email(account, code).deliver_now
     end
 end

@@ -16,7 +16,7 @@ class LoginsController < ApplicationController
         token = JwtService.encode(@account)
         data = filter_account(@account)
         data[:supplier] = @account.supplier_account rescue nil
-        # data[:addresses] = @account.addresses rescue nil
+        data[:addresses] = @account.addresses rescue nil
         render json: {message: 'Login Successfully!', data: data, token: token }
     end
 
@@ -31,6 +31,6 @@ class LoginsController < ApplicationController
     end
 
     def filter_account(account)
-        account.as_json.reject{ |k,v| [:password, :activation_code, :password_code].include?(k) }
+        account.as_json.reject{ |k,v| [:password, :activation_code, :password_code, :token_version].include?(k.to_sym) }
     end
 end
