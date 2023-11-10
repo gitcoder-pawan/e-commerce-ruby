@@ -30,6 +30,7 @@ class AccountsController < ApplicationController
     def resend_code
       @account = Account.find_by_email(permitted_params[:email])
       send_email_verification_code(@account)
+      render json: { message: "Code sent on #{@account.email}"}
     end
 
     def update
