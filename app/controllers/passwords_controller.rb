@@ -15,7 +15,7 @@ class PasswordsController < ApplicationController
             @account.update(password: permitted_params[:password])
             render json: {message: "Password reset successfully!"}
         else
-            render json: {error: "Inorrect code!"}
+            render json: {error: "Inorrect code!"}, status: :unprocessable_entity
         end
     end 
 
