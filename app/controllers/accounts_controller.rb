@@ -19,7 +19,7 @@ class AccountsController < ApplicationController
       unless @account.present?
         return render json: {error: "Account not found!"}
       end
-      if @account.activation_code == permitted_params[:code]
+      if @account.activation_code == permitted_params[:code].to_i
         @account.update(activated:true)
         render json: {message: "Account activated sucessfully"}
       else
@@ -28,7 +28,7 @@ class AccountsController < ApplicationController
     end
 
     def resend_code
-      @account = current_user
+      @account = Account.find_by_email(permitted_params[:email])
       send_email_verification_code(@account)
     end
 
