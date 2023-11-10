@@ -1,8 +1,12 @@
 class PasswordsController < ApplicationController
     def send_passcode
         @account = current_user
-        send_password_verification_code(@account)
-        render json: {message: "Please enter the code the sent to your email!"}
+        if @account.present?
+            send_password_verification_code(@account)
+            render json: {message: "Please enter the code the sent to your email!"}
+        else
+            render json: { error: "Account doesn't exist!"}, status: :unprocessable_entity
+        end
     end
 
     def reset_password
