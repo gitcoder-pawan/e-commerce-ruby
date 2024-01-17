@@ -34,7 +34,7 @@ Things you may want to cover:
 6. cd e-commerce-ruby 
 7. bundle install 
 
-** Ruby on rails installation in windows **
+** Ruby on rails installation in ubuntu **
 1. open terminal and run command in sequence
 2. sudo apt-get update
 3. sudo apt-get install ruby-full -> for ruby
