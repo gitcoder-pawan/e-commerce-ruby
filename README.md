@@ -23,7 +23,7 @@ Things you may want to cover:
 
 * ...
 
-** Ruby on rails installation in windows **
+## Ruby on rails installation in windows 
 1. install ruby with devkit (recommended) from https://rubyinstaller.org/downloads/
 2. simply follow all the installation process 
 3. Open terminal and check
@@ -34,7 +34,7 @@ Things you may want to cover:
 6. cd e-commerce-ruby 
 7. bundle install 
 
-** Ruby on rails installation in ubuntu **
+##  Ruby on rails installation in ubuntu 
 1. open terminal and run command in sequence
 2. sudo apt-get update
 3. sudo apt-get install ruby-full -> for ruby
