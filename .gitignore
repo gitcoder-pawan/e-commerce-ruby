@@ -7,6 +7,10 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore all environment files (except templates).
+/.env*
+!/.env*.erb
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -18,24 +22,31 @@
 !/tmp/pids/
 !/tmp/pids/.keep
 
-# Ignore uploaded files in development.
+# Ignore storage (uploaded files in development and any SQLite databases).
 /storage/*
 !/storage/.keep
-.byebug_history
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+
+/public/assets
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-.env
-/config/application.yml
 
-#Ingore vendor folder
-/vendor
+/coverage/
+/public/coverage/
+.rspec
+/spec/tmp
+.rvmrc
 
-#Ignore Gemfile.lock
-/Gemfile.lock
+# Ignore Byebug command history file.
+.byebug_history
 
-#Ignore coverage
-/coverage
+# Ignore node_modules
+node_modules/
 
-#Ignore vscode files
-.vscode
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+/public/uploads
